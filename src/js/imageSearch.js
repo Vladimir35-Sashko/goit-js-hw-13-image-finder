@@ -29,10 +29,11 @@ function loadMoreBtnHandler() {
   servise.fetcArticles().then(hits => {
     const markup = buildListItemsTemplate(hits);
     iserListItems(markup);
-    loadMoreBtn.scrollIntoView({
+    
+  });
+  refs.loadMoreBtn.scrollIntoView({
   behavior: 'smooth',
   block: 'end',
-});
   });
 }
 function iserListItems(items) {
