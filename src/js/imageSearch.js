@@ -1,9 +1,11 @@
 import servise from './apiService';
 import cardImeges from '../templates/templates.hbs';
 import refs from './refs';
+import '@pnotify/core/dist/BrightTheme.css';
+const { error } = require('@pnotify/core');
 
 
-refs.searchForm.addEventListener('submit', imageSearchInputHandler);
+refs.searchForm.addEventListener('submit',imageSearchInputHandler);
 refs.loadMoreBtn.addEventListener('click', loadMoreBtnHandler);
 
 function imageSearchInputHandler(e) {
@@ -12,18 +14,34 @@ function imageSearchInputHandler(e) {
 
   const form = e.currentTarget;
   const input = form.elements.query;
+  const query = e.target.value;
 
   clearListItems();
 
   servise.resetPage();
   servise.searchQuerry = input.value;
 
-  servise.fetcArticles().then(hits => {
+  servise.fetcArticles(query).then(hits => {
     const markup = buildListItemsTemplate(hits);
+    if (input.value=="") {
+      error({
+        text: "Please enter query!"
+      });
+    } else if (hits.status === 404) {
+      error({
+        text: "Nothing has been found. Please enter a more specific query!"
+      });
+    } else
     iserListItems(markup);
-  });
-  input.value = '';
-}
+  })
+  .catch(Error => {
+      Error({
+          text: "You must enter query parameters!"
+      });
+      console.log(Error)
+  })
+  }
+
 
 function loadMoreBtnHandler() {
   servise.fetcArticles().then(hits => {
