@@ -23,7 +23,7 @@ function imageSearchInputHandler(e) {
 
   servise.fetcArticles(query).then(hits => {
     const markup = buildListItemsTemplate(hits);
-    if (input.value=="") {
+    if (input.value ==="") {
       error({
         text: "Please enter query!"
       });
