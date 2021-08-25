@@ -27,7 +27,7 @@ function imageSearchInputHandler(e) {
       error({
         text: "Please enter query!"
       });
-    } else if (hits.status === 404) {
+    } else if (hits.length < 1) {
       error({
         text: "Nothing has been found. Please enter a more specific query!"
       });
